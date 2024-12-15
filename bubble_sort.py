@@ -24,4 +24,6 @@ def bubble_sort(arr: list[int]) -> list[int]:
 # for _ in range(10, 20):
 #     my_list.append(random.randint(1, 99))
 my_list = [64, 34, 25, 12, 22, 11, 90]
-print(bubble_sort(my_list))
+print(f'Список на входе: {my_list}')
+bubble_sort(my_list)
+print(f'Отсортированный список: {my_list}')
