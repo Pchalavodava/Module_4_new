@@ -6,13 +6,11 @@ def insertion_sort(arr: list[int]) -> None:
     """
     sortable_element = 1
     while sortable_element < len(arr):
-        right_element = sortable_element
-        left_element = right_element - 1
-        while arr[right_element] < arr[left_element]:
-            arr[left_element], arr[right_element] = arr[right_element], arr[left_element]
-            if left_element > 0:
-                right_element -= 1
-                left_element -= 1
+        i = sortable_element
+        while arr[i] < arr[i - 1]:
+            arr[i - 1], arr[i] = arr[i], arr[i - 1]
+            if i - 1 > 0:
+                i -= 1
             else:
                 break
         sortable_element += 1
