@@ -48,8 +48,10 @@ class MyDict:
         :param key: Any: Ключ для удаления
         :return: None
         """
-        ind = [k[0] for k in self.mydict].index(key)
-        self.mydict.pop(ind)
+        my_key_list = [k[0] for k in self.mydict]
+        if key in my_key_list:
+            ind = my_key_list.index(key)
+            self.mydict.pop(ind)
 
     def __contains__(self, key: Any) -> bool:
         """
