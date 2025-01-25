@@ -23,7 +23,7 @@ class MyDict:
         Получение значения по ключу. В данном случае получение второго значение кортежа [1],
         где первое значение [0] является ключом
         :param key: Any: Ключ
-        :return: Any | None: Второй элемент кортежа, если ключ существует, иначе None
+        :return: Any | raise KeyError: Второй элемент кортежа, если ключ существует, иначе raise KeyError
         """
         my_key_list = [k[0] for k in self.mydict]
         if key not in my_key_list:
@@ -122,7 +122,7 @@ class MyDict:
         """
         Получение значения по ключу
         :param key: Any: Ключ для получения значения
-        :return: Any | None: Значение, если ключ найден, иначе None
+        :return: Any | raise KeyError: Значение, если ключ найден, иначе raise KeyError
         """
         if key not in self.key_list:
             raise KeyError(f'Ключ {key} не найден')
