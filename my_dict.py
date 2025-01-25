@@ -26,20 +26,24 @@ class MyDict:
         :return: Any | None: Второй элемент кортежа, если ключ существует, иначе None
         """
         my_key_list = [k[0] for k in self.mydict]
-        if key in my_key_list:
-            my_value_list = [v[1] for v in self.mydict]
-            ind = my_key_list.index(key)
-            return my_value_list[ind]
-        else:
-            return None
+        if key not in my_key_list:
+            raise KeyError(f'Ключ {key} не найден')
+        my_value_list = [v[1] for v in self.mydict]
+        ind = my_key_list.index(key)
+        return my_value_list[ind]
 
     def __setitem__(self, key: Any, value: Any) -> None:
         """
-        Присваивает значение по ключу. В данном случае создат кортеж из двух элементов: ключ и значение
+        Присваивает значение по ключу. В данном случае создать кортеж из двух элементов: ключ и значение.
+        Если ключ уже существует, то удаление кортежа и создание нового с новым значением value
         :param key: Any: Ключ словаря
         :param value: Any: Значение словаря
         :return: None
         """
+        my_key_list = [k[0] for k in self.mydict]
+        if key in my_key_list:
+            ind = my_key_list.index(key)
+            del self.mydict[ind]
         self.mydict.append((key, value))
 
     def __delitem__(self, key: Any) -> None:
@@ -121,19 +125,23 @@ class MyDict:
         :return: Any | None: Значение, если ключ найден, иначе None
         """
         if key not in self.key_list:
-            return None
-        else:
-            return self.value_list[self.key_list.index(key)]
+            raise KeyError(f'Ключ {key} не найден')
+        return self.value_list[self.key_list.index(key)]
 
     def __setitem__(self, key: Any, value: Any) -> None:
         """
-        Присвоение значения по ключу. В данном случае заполнение словарей ключей и их значений
+        Присвоение значения по ключу. В данном случае заполнение словарей ключей и их значений.
+        Если ключ уже существует, то значение в списке value_list заменяется на новое
         :param key: Any: Ключ
         :param value: Any: Значение
         :return: None
         """
-        self.key_list.append(key)
-        self.value_list.append(value)
+        if key in self.key_list:
+            ind = self.key_list.index(key)
+            self.value_list[ind] = value
+        else:
+            self.key_list.append(key)
+            self.value_list.append(value)
 
     def __delitem__(self, key: Any) -> None:
         """
@@ -181,182 +189,6 @@ class MyDict:
 
 
 print('\nВариант 2')
-my_dict = MyDict()
-my_dict['name'] = 'Alice'
-my_dict['age'] = 30
-print(my_dict['name'])  # Вернет 'Alice'
-print(my_dict['age'])
-
-print('city' in my_dict)  # Вернет False
-del my_dict['age']
-print(my_dict.keys())  # Вернет ['name']
-print(my_dict.values())  # Вернет ['Alice']
-print(my_dict)
-
-"""
-Var_3 Создание словаря с помощью встроенного словаря
-
-"""
-
-
-class MyDict:
-
-    def __init__(self):
-        """
-        Объявление словаря
-        """
-        self.mydict = {}
-
-    def __str__(self) -> str:
-        """
-        Строковое представление словаря
-        :return: str: Словарь в текстовом представлении
-        """
-        return str(self.mydict)
-
-    def __getitem__(self, key: Any) -> Any:
-        """
-        Получение значения по заданному ключу
-        :param key: Any: Ключ
-        :return: Any: Значение по ключу
-        """
-        return self.mydict.get(key)
-
-    def __setitem__(self, key: Any, value: Any) -> None:
-        """
-        Присвоение значения ключу
-        :param key: Any: Ключ
-        :param value: Any: Значение
-        :return: None
-        """
-        self.mydict[key] = value
-
-    def __delitem__(self, key: Any) -> None:
-        """
-        Удаление объекта словаря
-        :param key: Any: Ключ для удаления
-        :return: None
-        """
-        if key in self.mydict:
-            self.mydict.pop(key)
-
-    def __contains__(self, key: Any) -> bool:
-        """
-        Проверка на вхождение ключа в словарь
-        :param key: Any: Ключ
-        :return: bool: True, если ключ найден, False иначе
-        """
-        return key in self.mydict
-
-    def keys(self) -> list[Any]:
-        """
-        Получение списка ключей
-        :return: list[Any]: Список ключей
-        """
-        return list(self.mydict.keys())
-
-    def values(self) -> list[Any]:
-        """
-        Получение списка значений
-        :return: list[Any]: Список значений
-        """
-        return list(self.mydict.values())
-
-    def items(self) -> dict[Any: Any]:
-        """
-        Получение словаря
-        :return: dict[Any: Any]: Словарь ключ-значение
-        """
-        return self.mydict.items()
-
-
-print('\nВариант 3')
-my_dict = MyDict()
-my_dict['name'] = 'Alice'
-my_dict['age'] = 30
-print(my_dict['name'])  # Вернет 'Alice'
-print(my_dict['age'])
-
-print('city' in my_dict)  # Вернет False
-del my_dict['age']
-print(my_dict.keys())  # Вернет ['name']
-print(my_dict.values())  # Вернет ['Alice']
-print(my_dict)
-
-"""
-Var_4 Создание словаря с помощью встроенного словаря __dict__ без инициализации пустого словаря
-
-"""
-
-
-class MyDict:
-    def __init__(self):
-        pass
-
-    def __str__(self) -> str:
-        """
-        Строковое представление словаря
-        :return: str: Словарь текстом
-        """
-        return f'{self.__dict__}'
-
-    def __getitem__(self, key: Any) -> Any:
-        """
-        Получение значения по ключу
-        :param key: Any: Ключ
-        :return: Any: Значение ключа Key
-        """
-        return self.__dict__.get(key)
-
-    def __setitem__(self, key: Any, value: Any) -> None:
-        """
-        Установление значения ключу
-        :param key: Any: Ключ
-        :param value: Any: Устанавливаемое значение
-        :return: None
-        """
-        setattr(self, key, value)
-
-    def __delitem__(self, key: Any) -> None:
-        """
-        Удаление значения по ключу
-        :param key: Any: Ключ для удаления
-        :return: None
-        """
-        if key in self.__dict__.keys():
-            delattr(self, key)
-
-    def __contains__(self, key: Any) -> bool:
-        """
-        Проверка на вхождение ключа в словарь
-        :param key: Any: Проверяемый ключ
-        :return: bool: True - ключ найден, False - нет
-        """
-        return key in self.__dict__
-
-    def keys(self) -> list[Any]:
-        """
-        Получение списка ключей
-        :return: list[Any]: Список ключей
-        """
-        return list(self.__dict__.keys())
-
-    def values(self) -> list[Any]:
-        """
-        Получение списка значений
-        :return: list[Any]: Список значений
-        """
-        return list(self.__dict__.values())
-
-    def items(self):
-        """
-        Получение словаря
-        :return: dict[Any: Any]: Словарь ключ-значение
-        """
-        return list(self.__dict__.items())
-
-
-print('\nВариант 4')
 my_dict = MyDict()
 my_dict['name'] = 'Alice'
 my_dict['age'] = 30
